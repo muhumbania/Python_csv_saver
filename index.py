@@ -3,19 +3,17 @@ import serial
 import time
 
 # field names
-fields = ['Name', 'Branch', 'Year', 'CGPA']
+fields = ['time', 'value']
 
 # set up the serial line
-ser = serial.Serial('COM5', 9600)
+ser = serial.Serial('COM4', 9600)
 time.sleep(2)
 
 # Read and record the data
 data =[]                       # empty list to store the data
 for i in range(50):
     b = ser.readline()         # read a byte string
-    string_n = b.decode()  # decode byte string into Unicode  
-    string = string_n.rstrip() # remove \n and \r
-    flt = float(string)        # convert string to float
+    flt = b.rstrip() # remove \n and \r
     print(flt)
     data.append(flt)           # add to the end of data list
     time.sleep(0.1)            # wait (sleep) 0.1 seconds
@@ -28,16 +26,8 @@ ser.close()
 for line in data:
     print(line)
 
-# data rows of csv file
-rows = [['Nikhil', 'COE', '2', '9.0'],
-		['Sanchit', 'COE', '2', '9.1'],
-		['Aditya', 'IT', '2', '9.3'],
-		['Sagar', 'SE', '1', '9.5'],
-		['Prateek', 'MCE', '3', '7.8'],
-		['Sahil', 'EP', '2', '9.1']]
-
 # name of csv file
-filename = "university_records.csv"
+filename = "test.csv"
 
 # writing to csv file
 with open(filename, 'w') as csvfile:
@@ -48,4 +38,4 @@ with open(filename, 'w') as csvfile:
 	csvwriter.writerow(fields)
 
 	# writing the data rows
-	csvwriter.writerows(rows)
+	csvwriter.writerows(data)
